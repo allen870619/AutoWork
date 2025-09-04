@@ -59,7 +59,7 @@ class AutoWork:
             try:
                 self.work_cycle()
                 
-                wait_time = 3600 + random.randint(60, 300)
+                wait_time = 3600 + random.randint(60, 1800)
                 next_run = datetime.datetime.now() + datetime.timedelta(seconds=wait_time)
                 print(f"Next run scheduled at: {next_run}")
                 time.sleep(wait_time)
