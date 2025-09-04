@@ -7,9 +7,22 @@ import datetime
 class AutoWork:
     def __init__(self, config_file='config.ini'):
         self.config = configparser.ConfigParser()
-        self.config.read(config_file)
-        self.x = int(self.config['coordinates']['x'])
-        self.y = int(self.config['coordinates']['y'])
+        try:
+            self.config.read(config_file)
+            if 'coordinates' not in self.config:
+                raise KeyError("Missing [coordinates] section in config.ini")
+            self.x = int(self.config['coordinates']['x'])
+            self.y = int(self.config['coordinates']['y'])
+        except KeyError as e:
+            print(f"Config error: {e}")
+            print("Please check your config.ini file format:")
+            print("[coordinates]")
+            print("x = 100")
+            print("y = 200")
+            exit(1)
+        except ValueError as e:
+            print(f"Config error: Invalid coordinate values - {e}")
+            exit(1)
     
     def click_position(self):
         pyautogui.moveTo(self.x, self.y)
