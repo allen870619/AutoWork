@@ -3,6 +3,9 @@ venv/
 env/
 ENV/
 
+# Environment Variables
+.env
+
 # Python
 __pycache__/
 *.py[cod]

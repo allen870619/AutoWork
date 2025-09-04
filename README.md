@@ -11,14 +11,15 @@
 - ✅ 自動輸入 `/work`，然後點兩下 enter
 - ✅ 隔一小時 + 隨機 1~5 分鐘後再次循環
 - ✅ 電腦時間清晨 1~8 點不執行
-- ✅ 特定位置設定在 config.ini 中
+- ✅ 特定位置設定在 .env 中
 
 ## 檔案結構
 
 ```
 autowork/
 ├── autowork.py      # 主程式
-├── config.ini       # 配置檔案 (點擊座標)
+├── .env            # 環境變數檔案 (點擊座標)
+├── .env.example    # 環境變數範例檔案
 ├── check_position.py # 游標位置檢查工具
 ├── test_autowork.py # 測試程式
 ├── requirements.txt # 依賴清單
@@ -35,11 +36,15 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-2. 修改 `config.ini` 中的座標設定：
-```ini
-[coordinates]
-x = 100    # 修改為實際的 x 座標
-y = 200    # 修改為實際的 y 座標
+2. 建立並設定 `.env` 檔案：
+```bash
+cp .env.example .env
+```
+
+修改 `.env` 中的座標設定：
+```
+x=100    # 修改為實際的 x 座標
+y=200    # 修改為實際的 y 座標
 ```
 
 ## 使用方法
@@ -57,12 +62,11 @@ python check_position.py
 
 ### 2. 設定座標
 
-將取得的座標寫入 `config.ini`：
+將取得的座標寫入 `.env`：
 
-```ini
-[coordinates]
-x = 實際的x座標    # 例如: 500
-y = 實際的y座標    # 例如: 300
+```
+x=實際的x座標    # 例如: 500
+y=實際的y座標    # 例如: 300
 ```
 
 ### 3. 啟動自動化程式

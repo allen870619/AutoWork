@@ -1,28 +1,33 @@
 import pyautogui
-import configparser
+import os
 import time
 import random
 import datetime
 
 class AutoWork:
-    def __init__(self, config_file='config.ini'):
-        self.config = configparser.ConfigParser()
+    def __init__(self, env_file='.env'):
+        self.load_env(env_file)
         try:
-            self.config.read(config_file)
-            if 'coordinates' not in self.config:
-                raise KeyError("Missing [coordinates] section in config.ini")
-            self.x = int(self.config['coordinates']['x'])
-            self.y = int(self.config['coordinates']['y'])
-        except KeyError as e:
-            print(f"Config error: {e}")
-            print("Please check your config.ini file format:")
-            print("[coordinates]")
-            print("x = 100")
-            print("y = 200")
-            exit(1)
+            self.x = int(os.getenv('x', '0'))
+            self.y = int(os.getenv('y', '0'))
+            print(f"Loaded coordinates: x={self.x}, y={self.y}")
         except ValueError as e:
             print(f"Config error: Invalid coordinate values - {e}")
             exit(1)
+    
+    def load_env(self, env_file):
+        if os.path.exists(env_file):
+            with open(env_file, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#') and '=' in line:
+                        key, value = line.split('=', 1)
+                        os.environ[key.strip()] = value.strip()
+        else:
+            print(f"Warning: {env_file} not found, using default coordinates (0, 0)")
+            print("Create a .env file with:")
+            print("x=100")
+            print("y=200")
     
     def click_position(self):
         pyautogui.moveTo(self.x, self.y)
